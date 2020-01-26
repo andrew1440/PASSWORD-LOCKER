@@ -26,9 +26,9 @@ on login  	  show the credential detail	   the store credentials are displayed
 Search for    credential	input account 	   credentials with that name displays
 option of exit 	choose exit option	       exit
 ## Setup Installation/Requirements
-.Clone or download and unzip the repository from github https://github.com/Andrew1440/Password-locker.git
+.Clone or download and unzip the repository from github https://github.com/andrew1440/Password-locker.git
 
-2.You can use this command (git clone https://github.com/Andrew1440/Password-locker.git ) to clone the project to your machine if you have git .
+2.You can use this command (git clone https://github.com/andrew1440/Password-locker.git ) to clone the project to your machine if you have git .
 
 3.cd into the project folder and open in text editor either code. or atom.
 
