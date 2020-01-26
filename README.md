@@ -35,3 +35,6 @@ option of exit 	choose exit option	       exit
 4.Then run chmod +x run.py on your project directory.
 
 5.Run ./run.py to launch the program.
+## Technologies used
+Python
+Git
