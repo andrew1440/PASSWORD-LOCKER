@@ -1,4 +1,5 @@
-# password-locker
+## project-name
+password-locker
 ## Author
 Andrew Odongo
 ## Description
