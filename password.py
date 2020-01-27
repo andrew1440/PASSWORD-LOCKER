@@ -69,14 +69,14 @@ def main():
 	print('Hello! Welcome to Password Locker.')
 	while True:
 		print(' ')
-		print("-"*60)
+		print("-"*20)
 		print('Use these codes to navigate: \n ca-Create an Account \n li-Log In \n ex-Exit')
 		short_code = input('Enter a choice: ').lower().strip()
 		if short_code == 'ex':
 			break
 
 		elif short_code == 'ca':
-			print("-"*60)
+			print("-"*20)
 			print(' ')
 			print('To create a new account:')
 			first_name = input('Enter your first name - ').strip()
@@ -86,7 +86,7 @@ def main():
 			print(" ")
 			print(f'New Account Created for: {first_name} {last_name} using password: {password}')
 		elif short_code == 'li':
-			print("-"*60)
+			print("-"*20)
 			print(' ')
 			print('To login, enter your account details:')
 			user_name = input('Enter your first name - ').strip()
