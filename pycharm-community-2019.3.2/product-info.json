@@ -1,0 +1,16 @@
+{
+  "name": "PyCharm",
+  "version": "2019.3.2",
+  "buildNumber": "193.6015.41",
+  "productCode": "PC",
+  "svgIconPath": "bin/pycharm.svg",
+  "launch": [
+    {
+      "os": "Linux",
+      "launcherPath": "bin/pycharm.sh",
+      "javaExecutablePath": "jbr/bin/java",
+      "vmOptionsFilePath": "bin/pycharm64.vmoptions",
+      "startupWmClass": "jetbrains-pycharm-ce"
+    }
+  ]
+}
