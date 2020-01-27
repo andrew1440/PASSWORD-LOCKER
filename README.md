@@ -7,7 +7,7 @@ This  project  enables clients to store and retrieve their credentials upon log-
 ## Features
 Create account for new user
 
-Loggin in
+Login in
 
 Option of computer generated password
 
@@ -21,7 +21,7 @@ Search credential by site name
 
 exit for leaving the site
 ## Behaviour Driven Development
-Behavior 	    bInput	                       Output
+Behavior 	    Input	                       Output
 on load 	    loging/signup 	               Access to the account
 on login  	  show the credential detail	   the store credentials are displayed
 Search for    credential	input account 	   credentials with that name displays
