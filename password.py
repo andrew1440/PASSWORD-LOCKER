@@ -1,181 +1,136 @@
-#! /usr/bin/env python3.6
-import string
-import random
-import user
-from user_credentials import Credential, User
+import unittest
+import pyperclip
+from user import User, Credential
 
 
-def create_user(fname,lname,password):
+class TestUser(unittest.TestCase):
+    '''
+	Test class that defines test cases for the user class behaviours.
+	Args:
+	    unittest.TestCase: helps in creating test cases
 	'''
-	Function to create a new user account
-	'''
-	new_user = User(fname,lname,password)
-	return new_user
 
-def save_user(user):
-	'''
-	Function to save a new user account
-	'''
-	User.save_user(user)
-
-def find_by_sitename(account):
-	return Credential.find_by_site_name(account)
-	
-
-def verify_user(first_name,password):
-	'''
-	Function that verifies the existance of the user before creating credentials
-	'''
-	checking_user = Credential.check_user(first_name,password)
-	return checking_user
-
-def generate_password(size=8, char=string.ascii_uppercase+string.ascii_lowercase+string.digits):
+    def setUp(self):
+        '''
+		Function to create a user account before each test
 		'''
-		Function to generate an 8 character password for a credential
+        self.new_user = User('Andy', 'corona', 'chicken1440')
+
+    def test__init__(self):
+        '''
+		Test to if check the initialization/creation of user instances is properly done
 		'''
-		gen_pass=''.join(random.choice(char) for _ in range(size))
-		return gen_pass
+        self.assertEqual(self.new_user.first_name, 'Andy')
+        self.assertEqual(self.new_user.last_name, 'corona')
+        self.assertEqual(self.new_user.password, 'chicken1440')
 
-def create_credential(user_name,site_name,account_name,password):
+    def test_save_user(self):
+        '''
+		Test to check if the new users info is saved into the users list
+		'''
+        self.new_user.save_user()
+        self.assertEqual(len(User.users_list), 1)
+
+
+class TestCredentials(unittest.TestCase):
+    '''
+	Test class that defines test cases for the credentials class behaviours.
+	Args:
+	    unittest.TestCase: helps in creating test cases
 	'''
-	Function to create a new credential
-	'''
-	new_credential=Credential(user_name,site_name,account_name,password)
-	return new_credential
 
-def save_credential(credential):
-	'''
-	Function to save a newly created credential
-	'''
-	Credential.save_credentials(credential)
+    def test_check_user(self):
+        '''
+		Function to test whether the login in function check_user works as expected
+		'''
+        self.new_user = User('Andy', 'corona', 'chicken1440')
+        self.new_user.save_user()
+        user2 = User('Andy', 'corona', 'chicken1440')
+        user2.save_user()
 
-def display_credentials(user_name):
-	'''
-	Function to display credentials saved by a user
-	'''
-	return Credential.display_credentials(user_name)
-	
-def copy_credential(site_name):
-	'''
-	Function to copy a credentials details to the clipboard
-	'''
-	return Credential.copy_credential(site_name)
+        for user in User.users_list:
+            if user.first_name == user2.first_name and user.password == user2.password:
+                current_user = user.first_name
+        return current_user
 
-def delete_credential(account_name):
-	account_name.del_credentials()
+        self.assertEqual(current_user, Credential.check_user(user2.password, user2.first_name))
 
-def main():
-	print(' ')
-	print('Hello! Welcome to Password Locker.')
-	while True:
-		print(' ')
-		print("-"*60)
-		print('Use these codes to navigate: \n ca-Create an Account \n li-Log In \n ex-Exit')
-		short_code = input('Enter a choice: ').lower().strip()
-		if short_code == 'ex':
-			break
+    def setUp(self):
+        '''
+		Function to create an account's credentials before each test
+		'''
+        self.new_credential = Credential('Andy', 'Facebook', 'corona', 'chicken1440')
 
-		elif short_code == 'ca':
-			print("-"*60)
-			print(' ')
-			print('To create a new account:')
-			first_name = input('Enter your first name - ').strip()
-			last_name = input('Enter your last name - ').strip()
-			password = input('Enter your password - ').strip()
-			save_user(create_user(first_name,last_name,password))
-			print(" ")
-			print(f'New Account Created for: {first_name} {last_name} using password: {password}')
-		elif short_code == 'li':
-			print("-"*60)
-			print(' ')
-			print('To login, enter your account details:')
-			user_name = input('Enter your first name - ').strip()
-			password = str(input('Enter your password - '))
-			user_exists = verify_user(user_name,password)
-			if user_exists == user_name:
-				print(" ")
-				print(f'Welcome {user_name}. Please choose an option to continue.')
-				print(' ')
-				while True:
-					print("-"*20)
-					print('Navigation codes: \n cc-Create a Credential \n dc-Display Credentials \n copy-Copy Password \n del-delete credential \n ex-Exit')
-					short_code = input('Enter a choice: ').lower().strip()
-					print("-"*20)
-					if short_code == 'ex':
-						print(" ")
-						print(f'Goodbye {user_name}')
-						break
-					elif short_code == 'cc':
-						print(' ')
-						print('Enter your credential details:')
-						site_name = input('Enter the site\'s name- ').strip()
-						account_name = input('Enter your account\'s name - ').strip()
-						while True:
-							print(' ')
-							print("-"*20)
-							print('Please choose an option for entering a password: \n ep-enter existing password \n gp-generate a password \n ex-exit')
-							psw_choice = input('Enter an option: ').lower().strip()
-							print("-"*20)
-							if psw_choice == 'ep':
-								print(" ")
-								password = input('Enter your password: ').strip()
-								break
-							elif psw_choice == 'gp':
-								password = generate_password()
-								break
-							elif psw_choice == 'ex':
-								break
-							else:
-								print('Invalid! Wrong option entered. Try again.')
-						save_credential(create_credential(user_name,site_name,account_name,password))
-						print(' ')
-						print(f'Credential Created: Site Name: {site_name} - Account Name: {account_name} - Password: {password}')
-						print(' ')
-					elif short_code == 'dc':
-						print(' ')
-						if display_credentials(user_name):
-							print('Here is a list of all your credentials')
-							print(' ')
-							for credential in display_credentials(user_name):
-								print(f'Site Name: {credential.site_name} - Account Name: {credential.account_name} - Password: {credential.password}')
-							print(' ')	
-						else:
-							print(' ')
-							print("You don't seem to have any credentials saved yet")
-							print(' ')
-					elif short_code == 'copy':
-						print(' ')
-						chosen_site = input('Enter the site name for the credential password to copy: ')
-						copy_credential(chosen_site)
-						print('')
+    def test__init__(self):
+        '''
+		Test to if check the initialization/creation of credential instances is properly done
+		'''
+        self.assertEqual(self.new_credential.user_name, 'Andy')
+        self.assertEqual(self.new_credential.site_name, 'Facebook')
+        self.assertEqual(self.new_credential.account_name, 'corona')
+        self.assertEqual(self.new_credential.password, 'chicken1440')
 
-					elif short_code == "del":
-						print("Enter site name of credential you want to delete")
-						cred_acc = input()
+    def test_save_credentials(self):
+        '''
+		Test to check if the new credential info is saved into the credentials list
+		'''
+        self.new_credential.save_credentials()
+        twitter = Credential('Andy', 'Twitter', '', 'chicken1440')
+        twitter.save_credentials()
+        self.assertEqual(len(Credential.credentials_list), 2)
 
-						if find_by_sitename(cred_acc):
-							found_acc = find_by_sitename(cred_acc)
-							delete_credential(found_acc)
-						else:
-							print("Account not found")
+    def tearDown(self):
+        '''
+		Function to clear the credentials list after every test
+		'''
+        Credential.credentials_list = []
+        User.users_list = []
 
-					else:
-						print('Invalid! Wrong option entered. Try again.')
+    def test_display_credentials(self):
+        '''
+		Test to check if the display_credentials method, displays the correct credentials.
+		'''
+        self.new_credential.save_credentials()
+        twitter = Credential('Andy', 'Twitter', 'corona', 'chicken1440')
+        twitter.save_credentials()
+        gmail = Credential('Andy', 'Gmail', 'corona', 'chicken1440')
+        gmail.save_credentials()
+        self.assertEqual(len(Credential.display_credentials(twitter.user_name)), 3)
 
-			else: 
-				print(' ')
-				print('Invalid! Wrong details entered. Try again or Create an Account.')		
-		
-		else:
-			print("-"*20)
-			print(' ')
-			print('Invalid! Wrong option entered. Try again.')
-				
+    def test_find_by_site_name(self):
+        '''
+		Test to check if the find_by_site_name method returns the correct credential
+		'''
+        self.new_credential.save_credentials()
+        twitter = Credential('Andy', 'Twitter', 'corona', 'chicken1440')
+        twitter.save_credentials()
+        credential_exists = Credential.find_by_site_name('Twitter')
+        self.assertEqual(credential_exists.first_name, twitter.first_name)
 
+    def test_copy_credential(self):
+        '''
+		Test to check if the copy a credential method copies the correct credential
+		'''
+        self.new_credential.save_credentials()
+        twitter = Credential('Andy', 'Twitter', 'corona', 'chicken140')
+        twitter.save_credentials()
+        find_credential = None
+        for credential in Credential.user_credentials_list:
+            find_credential = Credential.find_by_site_name(credential.site_name)
+            return pyperclip.copy(find_credential.password)
+        Credential.copy_credential(self.new_credential.site_name)
+        self.assertEqual('chicken1440', pyperclip.paste())
+        print(pyperclip.paste())
 
+    def test_del_credentials(self):
 
+        self.new_credential.save_credentials()
+        twitter = Credential('Andy', 'Twitter', 'corona', 'chicken1440')
+        twitter.save_credentials()
 
+        twitter.del_credentials()
+        self.assertEqual(len(Credential.credentials_list), 1)
 
 
 if __name__ == '__main__':
-	main()
+    unittest.main(verbosity=2)
