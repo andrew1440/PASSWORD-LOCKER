@@ -15,7 +15,7 @@ class TestCredential(unittest.TestCase):
         '''
         Set up method to run before each test cases.
         '''
-        self.new_credential = Credential("Andy","Corona","0712345678","james@ms.com") # create credential object
+        self.new_credential = Credential("Andy","Corona","0712345678","Andy@ms.com") # create credential object
     
 
     def test_init(self):
