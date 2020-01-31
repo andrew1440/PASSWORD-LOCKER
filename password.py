@@ -45,15 +45,15 @@ class TestCredentials(unittest.TestCase):
 		'''
         self.new_user = User('Andy', 'corona', 'chicken1440')
         self.new_user.save_user()
-        user2 = User('Andy', 'corona', 'chicken1440')
-        user2.save_user()
+        user = User('Andy', 'corona', 'chicken1440')
+        user.save_user()
 
         for user in User.users_list:
-            if user.first_name == user2.first_name and user.password == user2.password:
+            if user.first_name == user.first_name and user.password == user.password:
                 current_user = user.first_name
         return current_user
 
-        self.assertEqual(current_user, Credential.check_user(user2.password, user2.first_name))
+        self.assertEqual(current_user, Credential.check_user(user.password, user.first_name))
 
     def setUp(self):
         '''
@@ -133,4 +133,4 @@ class TestCredentials(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    unittest.main()
