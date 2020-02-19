@@ -19,13 +19,13 @@ return new_user
 
 
 def generate_password(user):
-"""
+ """
 function to come up with random password for user
 ----------
 user
 Returns
 -------
-"""
+ """
 return user.generate_random_password()
 
 
@@ -128,9 +128,9 @@ user_name = input("Enter your User name > ")
 create = input(
 f"Hello . does one desire a generated password? YES/N0 > ")
 if create == "no":
-print("-"*87)
+print("-"*70)
 print("|Don't mind if your password isn't visible as you type. WE go your password secured.|")#
-print("-"*87)
+print("-"*70)
 getpass.getpass()
 print("YOU ARE NOW LOGGED IN")
 # elif create == "yes":
@@ -341,6 +341,3 @@ print("Please check your entry")
 
 if __name__ == "__main__":
 main()	
-
-	
-
