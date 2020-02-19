@@ -1,125 +1,109 @@
-import unittest # Importing the unittest module
-from credential import Credential # Importing the credential class
+import unittest
+from password import User, Credential
+
+class TestUser(unittest.TestCase):
+    """
+        Test class that defines test cases for the user class behaviours.
+        Args:
+        unittest.TestCase: TestCase class that helps in creating test cases
+        """
+
+    def setUp(self):
+        self.new_user = User("Andy", "36156")
+
+    def tearDown(self):
+        User.user_list = []
+
+    def test_init(self):
+        self.assertEqual(self.new_user.name, "Andy")
+        self.assertEqual(self.new_user.user_password, "36156")
+
+    def test_save_user(self):
+        """
+            test_save_user test case to test if the user object is saved into
+            the user list
+            add
+            """
+
+        self.new_user.save_user()  # saving the new users
+        self.assertEqual(len(User.user_list), 1)
+
+    def test_save_multiple_user(self):
+        self.new_user.save_user()
+        test_user = User("Msee", "23456")  # new user
+        test_user.save_user()
+        self.assertEqual(len(User.user_list), 2)
+
+    def test_delete_user(self):
+        """
+            test_delete_user to test if we can remove a user from our users list
+            """
+        self.new_user.save_user()
+        test_user = User("Msee", "23456")
+        test_user.save_user()
+
+        self.new_user.delete_user()
+        self.assertEqual(len(User.user_list), 1)
+
 
 class TestCredential(unittest.TestCase):
+    """
+        Test class that defines test cases for the credential class behaviours.
+        Args:
+        unittest.TestCase: TestCase class that helps in creating test cases
+        """
 
-'''
-Test class that defines test cases for the contact class behaviours.
+    def setUp(self):
+        self.new_credential = Credential("facebook", "andys", "23456")
 
-Args:
-unittest.TestCase: TestCase class that helps in creating test cases
-'''
-# Items over here .......
+    def tearDown(self):
+        Credential.credential_list = []
 
-def setUp(self):
-'''
-founded method to run before each test cases.
-'''
-self.new_credential = Credential("Andy","Corona","0712345678","Andy@ms.com") # create credential object
+    def test_init(self):
+        self.assertEqual(self.new_credential.account, "facebook")
+        self.assertEqual(self.new_credential.account_username, "andys")
+        self.assertEqual(self.new_credential.account_password, "23456")
 
+    def test_save_credential(self):
+        """
+            test_save_credential test case to test if the credential object is saved into
+            the credential list
+            add
+            """
+        self.new_credential.test_save_credential()  # saving the new credential
+        self.assertEqual(len(Credential.credential_list), 0)
 
-def test_init(self):
-'''
-test_init action to test if the thing is initialized properly
-'''
+    def test_save_multiple_credential(self):
+        self.new_credential.save_credential()
+        test_credential = Credential("Twitter", "msee", "23456")  # new credential
+        test_credential.save_credential()
+        self.assertEqual(len(Credential.credential_list), 2)
 
-self.assertEqual(self.new_credential.first_name,"Andy")
-self.assertEqual(self.new_credential.last_name,"Corona")
-self.assertEqual(self.new_credential.phone_number,"0712345678")
-self.assertEqual(self.new_credential.email,"Andy@ms.com")
+    def test_delete_credential(self):
+        """
+        test_delete_credential to test if we can remove a credential from our credential list
+        """
+        self.new_credential.save_credential()
+        test_credential = Credential("facebook", "andys", "23456")
+        test_credential.save_credential()
+        self.new_credential.delete_credential()
+        self.assertEqual(len(Credential.credential_list),1)
+    def test_find_credential_by_account_username(self):
+        self.new_credential.save_credential()
+        test_credential = Credential("facebook", "andys", "23456")
+        test_credential.save_credential()
+        found_credential =Credential.find_by_account_username("andys")
+        self.assertEqual(found_credential.account_password, test_credential.account_password)
 
-
-def test_save_credential(self):
-'''
-test_save_credential action at law to check if the contact object is saved into
-the contact list
-'''
-self.new_credential.test_save_credential() # saving the new contact
-self.assertEqual(len(Credential.credential_list),1)
-
-def test_save_multiple_credential(self):
-'''
-test_save_multiple_credential to determine if we are going to save multiple credential
-objects to our credential_list
-'''
-self.new_credential.test_save_credential()
-test_save_credential = Credential("Test","user","0712345678","test@user.com") # new credential
-test_credential.save_credential()
-self.assertEqual(len(Credential.credential_list),2)
-
-# setup and sophistication creation over here
-def tearDown(self):
-'''
-tearDown method that does shut down after each action has run.
-'''
-Credential.credential_list = []
-
-# other test cases here
-def test_save_multiple_credential(self):
-'''
-test_save_multiple_credential to determine if we are going to save multiple credential
-objects to our credential_list
-'''
-self.new_credential.save_credential()
-test_credential = Credential("Test","user","0712345678","test@user.com") # new contact
-test_credential.save_credential()
-self.assertEqual(len(Credential.credential_list),2)
-# More tests above
-def test_delete_credential(self):
-'''
-test_delete_credential to test if we are going to remove a credential from our credential list
-'''
-self.new_credential.save_credential()
-test_credential = Credential("Test","user","0712345678","test@user.com") # new credential
-test_credential.save_credential()
-
-self.new_credential.delete_credential()# Deleting a credential object
-self.assertEqual(len(Credential.credential_list),1)
-def delete_credential(self):
-
-'''
-delete_credential method deletes a saved credential from the credential_list
-'''
-
-def test_find_credential_by_number(self):
-'''
-test to test if we will find a credential by number and display information
-'''
-
-self.new_credential.save_credential()
-test_credential = Credential("Test","user","0711223344","test@user.com") # new credential
-test_credential.save_credential()
-
-found_credential = Credential.find_by_number("0711223344")
-
-self.assertEqual(found_credential.email,test_credential.email)
-@classmethod
-def find_by_number(cls,number):
-'''
-Method that takes during a number and returns a credential that matches that number.
-
-Args:
-number: number to look for
-Returns :
-Credential of person who matches the amount.
-'''
-
-for credential in cls.credential_list:
-if credential.phone_number == number:
-return credential
-
-def test_credential_exists(self):
-'''
-test to determine if we are going to return a Boolean if we cannot find the credential.
-'''
-
-self.new_credential.save_credential()
-test_credential = Credential("Test","user","0711223344","test@user.com") # new credential
-test_credential.save_credential()
-
-credential_exists = Credential.credential_exist("0711223344")
-
-self.assertTrue(credential_exists)
+    def test_credential_exists(self):
+        self.new_credential.save_credential()
+        test_credential = Credential("facebook", "andys", "23456")
+        test_credential.save_credential()
+        credential_exists = Credential.credential_exists("andys")
+        self.assertTrue(credential_exists)
+        
+    def test_display_all_credentials(self):
+        self.assertEqual(Credential.display_credentials(), Credential.credential_list)
 
 if __name__ == '__main__':
-unittest.main()
+    unittest.main()
